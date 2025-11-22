@@ -15,13 +15,29 @@ public class berdScript : MonoBehaviour
     }
 
     // Update is called once per frame
+
+    void jump()
+    {
+        myRigidbody.velocity = Vector2.up * flapStrength;
+    }
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space) && birdIsAlive) 
         {
-            myRigidbody.velocity = Vector2.up *flapStrength;
+            jump();
         }
-        if(transform.position.y > Camera.main.orthographicSize || transform.position.y < -Camera.main.orthographicSize)
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0); // Get the first touch
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                jump();
+            }
+        }
+
+
+        if (transform.position.y > Camera.main.orthographicSize || transform.position.y < -Camera.main.orthographicSize)
         {
             logic.GameOver();
             birdIsAlive = false;
